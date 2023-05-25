@@ -14,7 +14,10 @@ import (
 //dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
 //db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-func initDb() {
+var err error
+var db *gorm.DB
+
+func InitDb() {
 	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		utils.DbUser,
 		utils.DbPassWord,
@@ -22,7 +25,7 @@ func initDb() {
 		utils.DbPort,
 		utils.DbName,
 	)
-	db, err := gorm.Open(mysql.Open(dns), &gorm.Config{
+	db, err = gorm.Open(mysql.Open(dns), &gorm.Config{
 		// gorm日志模式：silent
 		Logger: logger.Default.LogMode(logger.Silent),
 		// 外键约束
@@ -48,6 +51,7 @@ func initDb() {
 	// SetMaxOpenCons 设置数据库的最大连接数量。
 	sqlDB.SetMaxOpenConns(100)
 
-	// SetConnMaxLifetiment 设置连接的最大可复用时间。
+	// SetConnMaxLifetime 设置连接的最大可复用时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second)
+	fmt.Println("数据库连接成功")
 }
