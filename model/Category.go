@@ -1,6 +1,52 @@
 package model
 
+import "love_blog/utils/errmsg"
+
 type Category struct {
 	ID   uint   `gorm:"primary_key;auto_increment;not null" json:"id"`
 	Name string `gorm:"type:varchar(20);not null" json:"name"`
+}
+
+// AddCate 新增分类标签
+func AddCate(cate *Category) int {
+	err := db.Create(&cate).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// CheckCate 查看分类标签
+func CheckCate(cateName string) int {
+	var cate Category
+	if cateName == "" {
+		return errmsg.ERROR
+	}
+	db.Select("id").Where("name = ?", cateName).First(&cate)
+	if cate.ID > 0 {
+		return errmsg.ERROR_CATENAME_USED
+	}
+	return errmsg.SUCCSE
+}
+
+// DelCateById 根据id删除分类标签
+func DelCateById(id int) int {
+	var cate Category
+	err := db.Where("id = ?", id).Delete(&cate).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// EditCateById 根据id编辑分类名字
+func EditCateById(id int, data *Category) int {
+	var cate Category
+	var maps = make(map[string]interface{})
+	maps["name"] = data.Name
+	err := db.Model(&cate).Where("id = ?", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }
