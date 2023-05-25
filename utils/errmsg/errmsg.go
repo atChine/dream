@@ -1,5 +1,10 @@
 package errmsg
 
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
 const (
 	SUCCSE = 200
 	ERROR  = 500
@@ -40,4 +45,11 @@ var codeMsg = map[int]string{
 
 func GetErrMsg(code int) string {
 	return codeMsg[code]
+}
+
+// BadRequest 封装非法请求
+func BadRequest(c *gin.Context, message string) {
+	c.JSON(http.StatusBadRequest, gin.H{
+		"error": message,
+	})
 }
