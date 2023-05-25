@@ -82,3 +82,38 @@ func GetArtInfoByCate(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// GetArtInfo 分页查询所有文章/文章标题搜索
+func GetArtInfo(c *gin.Context) {
+	pageNum, _ := strconv.Atoi(c.Param("pageNum"))
+	pageSize, _ := strconv.Atoi(c.Param("pageSize"))
+	title := c.Query("title")
+	switch {
+	case pageSize >= 100:
+		pageSize = 100
+	case pageSize <= 0:
+		pageSize = 10
+	}
+	if pageNum <= 0 {
+		pageNum = 1
+	}
+	// 全部查询
+	if len(title) == 0 {
+		artList, code, total := model.GetArtInfo(pageSize, pageNum)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  code,
+			"data":    artList,
+			"total":   total,
+			"message": errmsg.GetErrMsg(code),
+		})
+		return
+	}
+	// 按照标题搜索文章
+	artList, code, total := model.GetArtInfoByTitle(pageSize, pageNum, title)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    artList,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
+}

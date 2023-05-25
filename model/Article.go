@@ -69,9 +69,35 @@ func GetArtInfoByCate(cid int, pageSize int, pageNum int) ([]Article, int, int64
 	var cateArtList []Article
 	var total int64
 	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", cid).Find(&cateArtList).Error
-	db.Model(&cateArtList).Where("cid = ?", cid).Count(&total)
 	if err != nil {
 		return nil, errmsg.ERROR_CATE_NOT_EXIST, 0
 	}
+	db.Model(&cateArtList).Where("cid = ?", cid).Count(&total)
 	return cateArtList, errmsg.SUCCSE, total
+}
+
+// GetArtInfo 分页查询所有文章
+func GetArtInfo(pageSize int, pageNum int) ([]Article, int, int64) {
+	var atrList []Article
+	var total int64
+	err := db.Select("article.id, title, img, create_at, updated_at, `desc`, comment_count, read_count, category.name").
+		Limit(pageSize).Offset((pageNum - 1) * pageNum).Order("Created_At DESC").Joins("Category").Find(&atrList)
+	if err != nil {
+		return nil, errmsg.ERROR, 0
+	}
+	db.Model(&atrList).Count(&total)
+	return atrList, errmsg.SUCCSE, total
+}
+
+// GetArtInfoByTitle 按照标题搜索文章
+func GetArtInfoByTitle(pageSize int, pageNum int, title string) ([]Article, int, int64) {
+	var atrList []Article
+	var total int64
+	err := db.Select("article.id, title, img, create_at, updated_at, `desc`, comment_count, read_count, category.name").
+		Where("title LIKE ?", "%"+title+"%").Order("Created_At DESC").Joins("Category").Find(&atrList).Error
+	if err != nil {
+		return nil, errmsg.ERROR, 0
+	}
+	db.Model(&atrList).Where("title LIKE ?", "%"+title+"%").Count(&total)
+	return atrList, errmsg.SUCCSE, total
 }
