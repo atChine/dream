@@ -39,13 +39,7 @@ func DelArtById(id int) int {
 // EdiArtById 根据id修改文章
 func EdiArtById(id int, data *Article) int {
 	var art Article
-	maps := make(map[string]interface{})
-	maps["title"] = data.Title
-	maps["cid"] = data.Cid
-	maps["img"] = data.Img
-	maps["content"] = data.Content
-	maps["desc"] = data.Desc
-	err := db.Model(&art).Where("id = ?", id).Updates(&maps).Error
+	err := db.Model(&art).Where("id = ?", id).Updates(&data).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
