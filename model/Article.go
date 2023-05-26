@@ -8,6 +8,7 @@ import (
 type Article struct {
 	Category Category `gorm:"foreignkey:Cid"`
 	gorm.Model
+	ArticleId           string `gorm:"type:varchar(36);not null" json:"article_id"`
 	UserId              uint   `gorm:"type:int;not null" json:"user_id"`
 	ArticleTitle        string `gorm:"type:varchar(100);not null" json:"article_title"`
 	ArticleCateId       int    `gorm:"type:int" json:"article_cate_id"`
@@ -28,9 +29,9 @@ func AddArt(articleAdd *Article) int {
 }
 
 // DelArtById 通过id删除指定文章
-func DelArtById(id int) int {
+func DelArtById(artId int) int {
 	var article Article
-	err := db.Where("id = ?", id).Delete(&article).Error
+	err := db.Where("article_id = ?", artId).Delete(&article).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -38,9 +39,9 @@ func DelArtById(id int) int {
 }
 
 // EdiArtById 根据id修改文章
-func EdiArtById(id int, data *Article) int {
+func EdiArtById(artId int, data *Article) int {
 	var art Article
-	err := db.Model(&art).Where("id = ?", id).Updates(&data).Error
+	err := db.Model(&art).Where("article_id = ?", artId).Updates(&data).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -48,26 +49,26 @@ func EdiArtById(id int, data *Article) int {
 }
 
 // GetArtInfoById 根据id查询文章详情
-func GetArtInfoById(id int) (Article, int) {
+func GetArtInfoById(artId int) (Article, int) {
 	var art Article
-	err := db.Where("id = ?", id).Preload("Category").First(&art).Error
+	err := db.Where("article_id = ?", artId).Preload("Category").First(&art).Error
 	if err != nil {
 		return art, errmsg.ERROR_ART_NOT_EXIST
 	}
 	// 更新浏览次数
-	db.Model(&art).Where("id = ?", id).UpdateColumn("read_count", gorm.Expr("read_count + ?", 1))
+	db.Model(&art).Where("article_id = ?", artId).UpdateColumn("article_read_count", gorm.Expr("article_read_count + ?", 1))
 	return art, errmsg.SUCCSE
 }
 
 // GetArtInfoByCate 分页查询分类下的所有文章
-func GetArtInfoByCate(cid int, pageSize int, pageNum int) ([]Article, int, int64) {
+func GetArtInfoByCate(cateId int, pageSize int, pageNum int) ([]Article, int, int64) {
 	var cateArtList []Article
 	var total int64
-	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", cid).Find(&cateArtList).Error
+	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("article_cate_id = ?", cateId).Find(&cateArtList).Error
 	if err != nil {
 		return nil, errmsg.ERROR_CATE_NOT_EXIST, 0
 	}
-	db.Model(&cateArtList).Where("cid = ?", cid).Count(&total)
+	db.Model(&cateArtList).Where("article_cate_id = ?", cateId).Count(&total)
 	return cateArtList, errmsg.SUCCSE, total
 }
 
@@ -75,7 +76,7 @@ func GetArtInfoByCate(cid int, pageSize int, pageNum int) ([]Article, int, int64
 func GetArtInfo(pageSize int, pageNum int) ([]Article, int, int64) {
 	var atrList []Article
 	var total int64
-	err := db.Select("article.id, title, img, create_at, updated_at, `desc`, comment_count, read_count, category.name").
+	err := db.Select("article.id, article.article_id, article_title , create_at, updated_at, article_desc, article_comment_count, article_read_count, article_like_count, category.category_name").
 		Limit(pageSize).Offset((pageNum - 1) * pageNum).Order("Created_At DESC").Joins("Category").Find(&atrList)
 	if err != nil {
 		return nil, errmsg.ERROR, 0
@@ -85,14 +86,14 @@ func GetArtInfo(pageSize int, pageNum int) ([]Article, int, int64) {
 }
 
 // GetArtInfoByTitle 按照标题搜索文章
-func GetArtInfoByTitle(pageSize int, pageNum int, title string) ([]Article, int, int64) {
+func GetArtInfoByTitle(pageSize int, pageNum int, artTitle string) ([]Article, int, int64) {
 	var atrList []Article
 	var total int64
-	err := db.Select("article.id, title, img, create_at, updated_at, `desc`, comment_count, read_count, category.name").
-		Where("title LIKE ?", "%"+title+"%").Order("Created_At DESC").Joins("Category").Find(&atrList).Error
+	err := db.Select("article.id, article.article_id, article_title , create_at, updated_at, article_desc, article_comment_count, article_read_count, article_like_count, category.category_name").
+		Where("title LIKE ?", "%"+artTitle+"%").Limit(pageSize).Offset((pageNum - 1) * pageNum).Order("Created_At DESC").Joins("Category").Find(&atrList).Error
 	if err != nil {
 		return nil, errmsg.ERROR, 0
 	}
-	db.Model(&atrList).Where("title LIKE ?", "%"+title+"%").Count(&total)
+	db.Model(&atrList).Where("title LIKE ?", "%"+artTitle+"%").Count(&total)
 	return atrList, errmsg.SUCCSE, total
 }

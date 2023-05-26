@@ -22,7 +22,7 @@ func AddArt(c *gin.Context) {
 
 // DelArtById 通过id删除指定文章
 func DelArtById(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("artId")
 	artId, err := strconv.Atoi(id)
 	if err != nil {
 		errmsg.BadRequest(c, "输入的id不合法")
@@ -38,11 +38,11 @@ func DelArtById(c *gin.Context) {
 func EdiArtById(c *gin.Context) {
 	var data model.Article
 	_ = c.ShouldBindJSON(&data)
-	id, err := strconv.Atoi(c.Param("id"))
+	artId, err := strconv.Atoi(c.Param("artId"))
 	if err != nil {
 		errmsg.BadRequest(c, "输入id不合法")
 	}
-	code := model.EdiArtById(id, &data)
+	code := model.EdiArtById(artId, &data)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrMsg(code),
@@ -51,8 +51,8 @@ func EdiArtById(c *gin.Context) {
 
 // GetArtInfoById 根据id查询文章详情
 func GetArtInfoById(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	data, code := model.GetArtInfoById(id)
+	artId, _ := strconv.Atoi(c.Param("artId"))
+	data, code := model.GetArtInfoById(artId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
@@ -62,7 +62,7 @@ func GetArtInfoById(c *gin.Context) {
 
 // GetArtInfoByCate 分页查询分类下的所有文章
 func GetArtInfoByCate(c *gin.Context) {
-	cid, _ := strconv.Atoi(c.Param("cid"))
+	cateId, _ := strconv.Atoi(c.Param("cateId"))
 	pageSize, _ := strconv.Atoi(c.Param("pageSize"))
 	pageNum, _ := strconv.Atoi(c.Param("pageNum"))
 	switch {
@@ -74,7 +74,7 @@ func GetArtInfoByCate(c *gin.Context) {
 	if pageNum <= 0 {
 		pageNum = 1
 	}
-	cateArtList, code, total := model.GetArtInfoByCate(cid, pageSize, pageNum)
+	cateArtList, code, total := model.GetArtInfoByCate(cateId, pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    cateArtList,
@@ -87,7 +87,7 @@ func GetArtInfoByCate(c *gin.Context) {
 func GetArtInfo(c *gin.Context) {
 	pageNum, _ := strconv.Atoi(c.Param("pageNum"))
 	pageSize, _ := strconv.Atoi(c.Param("pageSize"))
-	title := c.Query("title")
+	artTitle := c.Query("artTitle")
 	switch {
 	case pageSize >= 100:
 		pageSize = 100
@@ -98,7 +98,7 @@ func GetArtInfo(c *gin.Context) {
 		pageNum = 1
 	}
 	// 全部查询
-	if len(title) == 0 {
+	if len(artTitle) == 0 {
 		artList, code, total := model.GetArtInfo(pageSize, pageNum)
 		c.JSON(http.StatusOK, gin.H{
 			"status":  code,
@@ -109,7 +109,7 @@ func GetArtInfo(c *gin.Context) {
 		return
 	}
 	// 按照标题搜索文章
-	artList, code, total := model.GetArtInfoByTitle(pageSize, pageNum, title)
+	artList, code, total := model.GetArtInfoByTitle(pageSize, pageNum, artTitle)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    artList,
