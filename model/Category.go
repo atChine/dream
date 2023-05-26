@@ -7,8 +7,8 @@ import (
 
 type Category struct {
 	gorm.Model
-	CategoryId int    `gorm:"type:int;not null" json:"category_id"`
-	Name       string `gorm:"type:varchar(20);not null" json:"name"`
+	CategoryId   int    `gorm:"type:varchar(36);not null" json:"category_id"`
+	CategoryName string `gorm:"type:varchar(20);not null" json:"category_name"`
 }
 
 // AddCate 新增分类标签
@@ -20,23 +20,23 @@ func AddCate(cate *Category) int {
 	return errmsg.SUCCSE
 }
 
-// CheckCate 查看分类标签
+// CheckCate 查看分类标签是否存在
 func CheckCate(cateName string) int {
 	var cate Category
 	if cateName == "" {
 		return errmsg.ERROR
 	}
-	db.Select("id").Where("name = ?", cateName).First(&cate)
-	if cate.ID > 0 {
+	db.Select("category_id").Where("category_name = ?", cateName).First(&cate)
+	if cate.CategoryId > 0 {
 		return errmsg.ERROR_CATENAME_USED
 	}
 	return errmsg.SUCCSE
 }
 
 // DelCateById 根据id删除分类标签
-func DelCateById(id int) int {
+func DelCateById(cateId int) int {
 	var cate Category
-	err := db.Where("id = ?", id).Delete(&cate).Error
+	err := db.Where("category_id = ?", cateId).Delete(&cate).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -44,11 +44,11 @@ func DelCateById(id int) int {
 }
 
 // EditCateById 根据id编辑分类名字
-func EditCateById(id int, data *Category) int {
+func EditCateById(cateId int, data *Category) int {
 	var cate Category
 	var maps = make(map[string]interface{})
-	maps["name"] = data.Name
-	err := db.Model(&cate).Where("id = ?", id).Updates(maps).Error
+	maps["category_name"] = data.CategoryName
+	err := db.Model(&cate).Where("category_id = ?", cateId).Updates(maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -56,9 +56,9 @@ func EditCateById(id int, data *Category) int {
 }
 
 // GetCateInfoById 通过id查询单个分类详细信息
-func GetCateInfoById(id int) (Category, int) {
+func GetCateInfoById(cateId int) (Category, int) {
 	var cate Category
-	err := db.Where("id = ?", id).First(&cate).Error
+	err := db.Where("category_id = ?", cateId).First(&cate).Error
 	if err != nil {
 		return cate, errmsg.ERROR
 	}

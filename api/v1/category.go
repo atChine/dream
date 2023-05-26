@@ -13,7 +13,7 @@ func AddCate(c *gin.Context) {
 	var cate model.Category
 	_ = c.ShouldBindJSON(&cate)
 	// 查看分类标签是否存在
-	code := model.CheckCate(cate.Name)
+	code := model.CheckCate(cate.CategoryName)
 	if code == errmsg.SUCCSE {
 		model.AddCate(&cate)
 	}
@@ -23,33 +23,33 @@ func AddCate(c *gin.Context) {
 	})
 }
 
-// DelCateById 根据id删除分类标签
+// DelCateById 根据cateId删除分类标签
 func DelCateById(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+	cateId, err := strconv.Atoi(c.Param("cateId"))
 	if err != nil {
-		errmsg.BadRequest(c, "输入的id不合法")
+		errmsg.BadRequest(c, "输入的cateId不合法")
 	}
-	code := model.DelCateById(id)
+	code := model.DelCateById(cateId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
 
-// EditCateById 根据id编辑分类名字
+// EditCateById 根据cateId编辑分类名字
 func EditCateById(c *gin.Context) {
 	var cate model.Category
-	id, err := strconv.Atoi(c.Param("id"))
+	cateId, err := strconv.Atoi(c.Param("cateId"))
 	if err != nil {
 		errmsg.BadRequest(c, "输入的id不合法")
 	}
 	_ = c.ShouldBindJSON(&cate)
-	code := model.CheckCate(cate.Name)
+	code := model.CheckCate(cate.CategoryName)
 	if code == errmsg.ERROR_CATENAME_USED {
 		c.Abort()
 	}
 	if code == errmsg.SUCCSE {
-		code = model.EditCateById(id, &cate)
+		code = model.EditCateById(cateId, &cate)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -59,11 +59,11 @@ func EditCateById(c *gin.Context) {
 
 // GetCateInfoById 通过id查询单个分类详细信息
 func GetCateInfoById(c *gin.Context) {
-	id, err := strconv.Atoi("id")
+	cateId, err := strconv.Atoi("cateId")
 	if err != nil {
-		errmsg.BadRequest(c, "输入的id不合法")
+		errmsg.BadRequest(c, "输入的cateId不合法")
 	}
-	data, code := model.GetCateInfoById(id)
+	data, code := model.GetCateInfoById(cateId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
@@ -74,7 +74,7 @@ func GetCateInfoById(c *gin.Context) {
 // GetCateList 查询分类列表
 func GetCateList(c *gin.Context) {
 	pageSize, _ := strconv.Atoi("pageSize")
-	pageNum, _ := strconv.Atoi("pageNUm")
+	pageNum, _ := strconv.Atoi("pageNum")
 	switch {
 	case pageSize >= 100:
 		pageSize = 100
