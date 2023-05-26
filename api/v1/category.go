@@ -56,3 +56,39 @@ func EditCateById(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// GetCateInfoById 通过id查询单个分类详细信息
+func GetCateInfoById(c *gin.Context) {
+	id, err := strconv.Atoi("id")
+	if err != nil {
+		errmsg.BadRequest(c, "输入的id不合法")
+	}
+	data, code := model.GetCateInfoById(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
+
+// GetCateList 查询分类列表
+func GetCateList(c *gin.Context) {
+	pageSize, _ := strconv.Atoi("pageSize")
+	pageNum, _ := strconv.Atoi("pageNUm")
+	switch {
+	case pageSize >= 100:
+		pageSize = 100
+	case pageSize <= 0:
+		pageSize = 10
+	}
+	if pageNum == 0 {
+		pageNum = 1
+	}
+	data, total, code := model.GetCateList(pageSize, pageNum)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
+}

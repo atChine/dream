@@ -50,3 +50,25 @@ func EditCateById(id int, data *Category) int {
 	}
 	return errmsg.SUCCSE
 }
+
+// GetCateInfoById 通过id查询单个分类详细信息
+func GetCateInfoById(id int) (Category, int) {
+	var cate Category
+	err := db.Where("id = ?", id).First(&cate).Error
+	if err != nil {
+		return cate, errmsg.ERROR
+	}
+	return cate, errmsg.SUCCSE
+}
+
+// GetCateList 查询分类列表
+func GetCateList(pageSize int, pageNum int) ([]Category, int64, int) {
+	var cate []Category
+	var total int64
+	err := db.Limit(pageSize).Offset((pageNum - 1) * pageNum).Find(&cate).Error
+	if err != nil {
+		return nil, 0, errmsg.ERROR
+	}
+	db.Model(&cate).Count(&total)
+	return cate, total, errmsg.SUCCSE
+}
