@@ -8,13 +8,14 @@ import (
 type Article struct {
 	Category Category `gorm:"foreignkey:Cid"`
 	gorm.Model
-	Title        string `gorm:"type:varchar(100);not null" json:"title"`
-	Cid          int    `gorm:"type:int;not null" json:"cid"`
-	Desc         string `gorm:"type:varchar(200)" json:"desc"`
-	Content      string `gorm:"type:longtext" json:"content"`
-	Img          string `gorm:"type:varchar(100)" json:"img"`
-	CommentCount int    `gorm:"type:int;not null;default:0" json:"comment_count"`
-	ReadCount    int    `gorm:"type:int;not null;default:0" json:"read_count"`
+	UserId              uint   `gorm:"type:int;not null" json:"user_id"`
+	ArticleTitle        string `gorm:"type:varchar(100);not null" json:"article_title"`
+	ArticleCateId       int    `gorm:"type:int" json:"article_cate_id"`
+	ArticleDesc         string `gorm:"type:varchar(200)" json:"article_desc"`
+	ArticleContent      string `gorm:"type:longtext" json:"article_content"`
+	ArticleCommentCount int    `gorm:"type:int;not null;default:0" json:"article_comment_count"`
+	ArticleReadCount    int    `gorm:"type:int;not null;default:0" json:"article_read_count"`
+	ArticleLikeCount    int    `gorm:"type:int;not null;default:0" json:"article_like_count"`
 }
 
 // AddArt CreateAdd 新增文章

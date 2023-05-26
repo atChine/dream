@@ -1,10 +1,14 @@
 package model
 
-import "love_blog/utils/errmsg"
+import (
+	"gorm.io/gorm"
+	"love_blog/utils/errmsg"
+)
 
 type Category struct {
-	ID   uint   `gorm:"primary_key;auto_increment;not null" json:"id"`
-	Name string `gorm:"type:varchar(20);not null" json:"name"`
+	gorm.Model
+	CategoryId int    `gorm:"type:int;not null" json:"category_id"`
+	Name       string `gorm:"type:varchar(20);not null" json:"name"`
 }
 
 // AddCate 新增分类标签
