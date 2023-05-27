@@ -9,7 +9,7 @@ type Article struct {
 	Category Category `gorm:"foreignkey:Cid"`
 	gorm.Model
 	ArticleId           string `gorm:"type:varchar(36);not null" json:"article_id"`
-	UserId              uint   `gorm:"type:int;not null" json:"user_id"`
+	UserId              uint   `gorm:"type:varchar(36);not null" json:"user_id"`
 	ArticleTitle        string `gorm:"type:varchar(100);not null" json:"article_title"`
 	ArticleCateId       int    `gorm:"type:int" json:"article_cate_id"`
 	ArticleDesc         string `gorm:"type:varchar(200)" json:"article_desc"`
@@ -29,7 +29,7 @@ func AddArt(articleAdd *Article) int {
 }
 
 // DelArtById 通过id删除指定文章
-func DelArtById(artId int) int {
+func DelArtById(artId string) int {
 	var article Article
 	err := db.Where("article_id = ?", artId).Delete(&article).Error
 	if err != nil {
@@ -39,7 +39,7 @@ func DelArtById(artId int) int {
 }
 
 // EdiArtById 根据id修改文章
-func EdiArtById(artId int, data *Article) int {
+func EdiArtById(artId string, data *Article) int {
 	var art Article
 	err := db.Model(&art).Where("article_id = ?", artId).Updates(&data).Error
 	if err != nil {
@@ -49,7 +49,7 @@ func EdiArtById(artId int, data *Article) int {
 }
 
 // GetArtInfoById 根据id查询文章详情
-func GetArtInfoById(artId int) (Article, int) {
+func GetArtInfoById(artId string) (Article, int) {
 	var art Article
 	err := db.Where("article_id = ?", artId).Preload("Category").First(&art).Error
 	if err != nil {
@@ -61,7 +61,7 @@ func GetArtInfoById(artId int) (Article, int) {
 }
 
 // GetArtInfoByCate 分页查询分类下的所有文章
-func GetArtInfoByCate(cateId int, pageSize int, pageNum int) ([]Article, int, int64) {
+func GetArtInfoByCate(cateId string, pageSize int, pageNum int) ([]Article, int, int64) {
 	var cateArtList []Article
 	var total int64
 	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("article_cate_id = ?", cateId).Find(&cateArtList).Error

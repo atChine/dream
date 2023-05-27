@@ -22,11 +22,7 @@ func AddArt(c *gin.Context) {
 
 // DelArtById 通过id删除指定文章
 func DelArtById(c *gin.Context) {
-	id := c.Param("artId")
-	artId, err := strconv.Atoi(id)
-	if err != nil {
-		errmsg.BadRequest(c, "输入的id不合法")
-	}
+	artId := c.Param("artId")
 	code := model.DelArtById(artId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -38,10 +34,7 @@ func DelArtById(c *gin.Context) {
 func EdiArtById(c *gin.Context) {
 	var data model.Article
 	_ = c.ShouldBindJSON(&data)
-	artId, err := strconv.Atoi(c.Param("artId"))
-	if err != nil {
-		errmsg.BadRequest(c, "输入id不合法")
-	}
+	artId := c.Param("artId")
 	code := model.EdiArtById(artId, &data)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -51,7 +44,7 @@ func EdiArtById(c *gin.Context) {
 
 // GetArtInfoById 根据id查询文章详情
 func GetArtInfoById(c *gin.Context) {
-	artId, _ := strconv.Atoi(c.Param("artId"))
+	artId := c.Param("artId")
 	data, code := model.GetArtInfoById(artId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -62,7 +55,7 @@ func GetArtInfoById(c *gin.Context) {
 
 // GetArtInfoByCate 分页查询分类下的所有文章
 func GetArtInfoByCate(c *gin.Context) {
-	cateId, _ := strconv.Atoi(c.Param("cateId"))
+	cateId := c.Param("cateId")
 	pageSize, _ := strconv.Atoi(c.Param("pageSize"))
 	pageNum, _ := strconv.Atoi(c.Param("pageNum"))
 	switch {
