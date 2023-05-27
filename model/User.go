@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	UserId       uint   `gorm:"type:int" json:"user_id"`
+	UserId       uint   `gorm:"type:varchar(36);not null" json:"user_id"`
 	UserName     string `gorm:"type:varchar(20);not null " json:"user_name" validate:"required,min=4,max=12" label:"用户名"`
 	UserDesc     string `gorm:"type:varchar(200)" json:"user_desc"`
 	UserRole     int    `gorm:"type:int;DEFAULT:2" json:"user_role" validate:"required,gte=2" label:"角色码"`
