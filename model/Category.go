@@ -34,7 +34,7 @@ func CheckCate(cateName string) int {
 }
 
 // DelCateById 根据id删除分类标签
-func DelCateById(cateId int) int {
+func DelCateById(cateId string) int {
 	var cate Category
 	err := db.Where("category_id = ?", cateId).Delete(&cate).Error
 	if err != nil {
@@ -44,7 +44,7 @@ func DelCateById(cateId int) int {
 }
 
 // EditCateById 根据id编辑分类名字
-func EditCateById(cateId int, data *Category) int {
+func EditCateById(cateId string, data *Category) int {
 	var cate Category
 	var maps = make(map[string]interface{})
 	maps["category_name"] = data.CategoryName
@@ -56,7 +56,7 @@ func EditCateById(cateId int, data *Category) int {
 }
 
 // GetCateInfoById 通过id查询单个分类详细信息
-func GetCateInfoById(cateId int) (Category, int) {
+func GetCateInfoById(cateId string) (Category, int) {
 	var cate Category
 	err := db.Where("category_id = ?", cateId).First(&cate).Error
 	if err != nil {

@@ -25,10 +25,7 @@ func AddCate(c *gin.Context) {
 
 // DelCateById 根据cateId删除分类标签
 func DelCateById(c *gin.Context) {
-	cateId, err := strconv.Atoi(c.Param("cateId"))
-	if err != nil {
-		errmsg.BadRequest(c, "输入的cateId不合法")
-	}
+	cateId := c.Param("cateId")
 	code := model.DelCateById(cateId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -39,10 +36,7 @@ func DelCateById(c *gin.Context) {
 // EditCateById 根据cateId编辑分类名字
 func EditCateById(c *gin.Context) {
 	var cate model.Category
-	cateId, err := strconv.Atoi(c.Param("cateId"))
-	if err != nil {
-		errmsg.BadRequest(c, "输入的id不合法")
-	}
+	cateId := c.Param("cateId")
 	_ = c.ShouldBindJSON(&cate)
 	code := model.CheckCate(cate.CategoryName)
 	if code == errmsg.ERROR_CATENAME_USED {
@@ -59,10 +53,7 @@ func EditCateById(c *gin.Context) {
 
 // GetCateInfoById 通过id查询单个分类详细信息
 func GetCateInfoById(c *gin.Context) {
-	cateId, err := strconv.Atoi("cateId")
-	if err != nil {
-		errmsg.BadRequest(c, "输入的cateId不合法")
-	}
+	cateId := c.Param("cateId")
 	data, code := model.GetCateInfoById(cateId)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
