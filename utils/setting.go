@@ -8,8 +8,8 @@ import (
 var (
 	AppMode  string
 	HttpPort string
+	JwtKey   string
 
-	Db         string
 	DbHost     string
 	DbPort     string
 	DbUser     string
@@ -29,10 +29,10 @@ func init() {
 func LoadServer(file *ini.File) {
 	AppMode = file.Section("server").Key("AppMode").MustString("debug")
 	HttpPort = file.Section("server").Key("HttpPort").MustString("8080")
+	JwtKey = file.Section("server").Key("JwtKey").MustString("223344abc")
 }
 
 func LoadData(file *ini.File) {
-	Db = file.Section("database").Key("Db").MustString("debug")
 	DbHost = file.Section("database").Key("DbHost").MustString("localhost")
 	DbPort = file.Section("database").Key("DbPort").MustString("3306")
 	DbUser = file.Section("database").Key("DbUser").MustString("love_blog")
