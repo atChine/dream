@@ -47,7 +47,7 @@ func DelCateById(cateId string) int {
 func EditCateById(cateId string, data *Category) int {
 	var cate Category
 	var maps = make(map[string]interface{})
-	maps["category_name"] = data.CategoryName
+	maps["CategoryName"] = data.CategoryName
 	err := db.Model(&cate).Where("category_id = ?", cateId).Updates(maps).Error
 	if err != nil {
 		return errmsg.ERROR
