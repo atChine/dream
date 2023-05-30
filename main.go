@@ -1,13 +1,7 @@
 package main
 
-import (
-	"love_blog/model"
-	"love_blog/routes"
-)
+import "fmt"
 
 func main() {
-	// 连接数据库
-	model.InitDb()
-
-	routes.InitRouter()
+	fmt.Println("hello world")
 }
