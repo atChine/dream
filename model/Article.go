@@ -6,12 +6,12 @@ import (
 )
 
 type Article struct {
-	Category Category `gorm:"foreignkey:Cid"`
+	Category Category `gorm:"foreignkey:category_id"`
 	gorm.Model
 	ArticleId           string `gorm:"type:varchar(36);not null" json:"article_id"`
 	UserId              uint   `gorm:"type:varchar(36);not null" json:"user_id"`
 	ArticleTitle        string `gorm:"type:varchar(100);not null" json:"article_title"`
-	ArticleCateId       int    `gorm:"type:int" json:"article_cate_id"`
+	ArticleCateId       int    `gorm:"type:int" json:"category_id"`
 	ArticleDesc         string `gorm:"type:varchar(200)" json:"article_desc"`
 	ArticleContent      string `gorm:"type:longtext" json:"article_content"`
 	ArticleCommentCount int    `gorm:"type:int;not null;default:0" json:"article_comment_count"`
@@ -76,7 +76,7 @@ func GetArtInfoByCate(cateId string, pageSize int, pageNum int) ([]Article, int,
 func GetArtInfo(pageSize int, pageNum int) ([]Article, int, int64) {
 	var atrList []Article
 	var total int64
-	err := db.Select("article.id, article.article_id, article_title , create_at, updated_at, article_desc, article_comment_count, article_read_count, article_like_count, category.category_name").
+	err := db.Select("article.id, article_id, article_title , create_at, updated_at, article_desc, article_comment_count, article_read_count, article_like_count, category.category_name").
 		Limit(pageSize).Offset((pageNum - 1) * pageNum).Order("Created_At DESC").Joins("Category").Find(&atrList)
 	if err != nil {
 		return nil, errmsg.ERROR, 0
