@@ -27,10 +27,10 @@ func FrontRouter() http.Handler {
 	store.Options(sessions.Options{MaxAge: config.Cfg.Session.MaxAge})
 	r.Use(sessions.Sessions(config.Cfg.Session.Name, store)) // Session 中间件 (使用 Redis 存储引擎)
 
-	// 无需监权的接口
-	base := r.Group("/api/front")
-	{
-		base.POST("/login", userAuthAPI.Login) // 登录
-	}
+	//无需监权的接口
+	//base := r.Group("/api/front")
+	//{
+	//	base.POST("/login", userAuthAPI.Login) // 登录
+	//}
 	return r
 }

@@ -11,7 +11,8 @@ import (
 
 // InitGlobalVariable 初始化全局变量
 func InitGlobalVariable() {
-
+	// 读取配置文件
+	utils.InitViper()
 	// 初始化数据库
 	dao.DB = utils.InitMySQLDB()
 }
