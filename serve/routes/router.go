@@ -13,6 +13,8 @@ import (
 func InitGlobalVariable() {
 	// 读取配置文件
 	utils.InitViper()
+	// 初始化 Logger
+	utils.InitLogger()
 	// 初始化数据库
 	dao.DB = utils.InitMySQLDB()
 }

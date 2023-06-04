@@ -18,7 +18,7 @@ func InitViper() {
 		log.Printf("命令行读取参数, 配置文件路径为: %s\n", configPath)
 	} else { // 命令行未读取到参数
 		log.Println("命令行参数为空, 默认加载: config/config.toml")
-		configPath = "serve/config/config.toml"
+		configPath = "D:\\projects\\dream\\serve\\config\\config.toml"
 	}
 
 	// 目前读取固定固定路径的配置文件
