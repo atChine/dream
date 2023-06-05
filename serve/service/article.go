@@ -90,6 +90,25 @@ func (*Article) Search(q req.KeywordQuery) []resp.ArticleSearchVO {
 	return res
 }
 
+// GetArchiveList 获取归档列表
+func (*Article) GetArchiveList(req req.GetFrontArts) resp.PageResult[[]resp.ArchiveVO] {
+	articles, total := articleDao.GetArchiveList(req)
+	archives := make([]resp.ArchiveVO, 0)
+	for _, article := range articles {
+		archives = append(archives, resp.ArchiveVO{
+			ID:         article.ID,
+			Title:      article.Title,
+			Created_at: article.Created_at,
+		})
+	}
+	return resp.PageResult[[]resp.ArchiveVO]{
+		Total:    total,
+		PageSize: req.PageSize,
+		PageNum:  req.PageNum,
+		List:     archives,
+	}
+}
+
 // 获取带中文的字符串中子字符串的实际位置，非字节位置
 func unicodeIndex(str, substr string) int {
 	// 子串在字符串的字节位置

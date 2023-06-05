@@ -101,3 +101,27 @@ func (*Article) GetNext(id int) (res resp.ArticlePaginationVO) {
 		First(&res)
 	return
 }
+
+// GetArchiveList 获取前台归档列表
+func (*Article) GetArchiveList(req req.GetFrontArts) ([]resp.ArchiveVO, int64) {
+	list := make([]resp.ArchiveVO, 0)
+	var total int64
+
+	db := DB.Table("article").
+		Select("id, title,created_at").
+		Where("is_delete = 0 AND status = 1")
+	if req.CategoryId != 0 {
+		db = db.Where("category_id", req.CategoryId)
+	}
+	if req.TagId != 0 {
+		db = db.Where("id IN (SELECT article_id FROM article_tag WHERE tag_id = ?)", req.TagId)
+	}
+
+	db.Count(&total)
+	db.Preload("Tags").
+		Preload("Category").
+		Order("is_top DESC, created_at DESC, id DESC").
+		Limit(req.PageSize).Offset(req.PageSize * (req.PageNum - 1)).
+		Find(&list)
+	return list, total
+}

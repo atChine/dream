@@ -71,3 +71,10 @@ type ArticleSearchVO struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
+
+// ArchiveVO 文章归档
+type ArchiveVO struct {
+	ID         int       `json:"id"`
+	Title      string    `json:"title"`
+	Created_at time.Time `json:"created_at"`
+}

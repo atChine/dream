@@ -23,3 +23,8 @@ func (*Article) GetFrontInfo(c *gin.Context) {
 func (*Article) Search(c *gin.Context) {
 	r.SuccessData(c, articleService.Search(utils.BindQuery[req.KeywordQuery](c)))
 }
+
+// GetArchiveList 前台文章归档
+func (*Article) GetArchiveList(c *gin.Context) {
+	r.SuccessData(c, articleService.GetArchiveList(utils.BindQuery[req.GetFrontArts](c)))
+}
