@@ -22,7 +22,7 @@ LogMode = "error" # silent 相当于关闭日志
 [Redis]
 DB = 7
 Addr = '127.0.0.1:6379'
-Password = ''
+Password = 'admin123'
 
 [Session]
 Name = "mysession"

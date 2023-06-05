@@ -19,6 +19,8 @@ func InitGlobalVariable() {
 	dao.DB = utils.InitMySQLDB()
 	// 初始化控制权限
 	utils.InitCasbin(dao.DB)
+	// 初始化redis
+	utils.InitRedis()
 }
 
 // BackendServer 后台服务

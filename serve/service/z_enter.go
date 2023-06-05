@@ -33,7 +33,7 @@ var (
 	//messageDao      dao.Message
 	articleDao dao.Article
 	//userDao         dao.User
-	//commentDao      dao.Comment
+	commentDao dao.Comment
 	//friendLinkDao   dao.FriendLink
 	//roleDao         dao.Role
 	//resourceDao     dao.Resource
