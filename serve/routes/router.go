@@ -17,6 +17,8 @@ func InitGlobalVariable() {
 	utils.InitLogger()
 	// 初始化数据库
 	dao.DB = utils.InitMySQLDB()
+	// 初始化控制权限
+	utils.InitCasbin(dao.DB)
 }
 
 // BackendServer 后台服务

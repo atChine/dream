@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// 全局日志指针
+// Logger 全局日志指针
 var Logger *zap.Logger
 
 func InitLogger() {
