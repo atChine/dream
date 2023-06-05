@@ -29,7 +29,7 @@ const (
 
 var (
 	//tagDao          dao.Tag
-	//categoryDao     dao.Category
+	categoryDao dao.Category
 	//messageDao      dao.Message
 	articleDao dao.Article
 	//userDao         dao.User

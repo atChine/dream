@@ -4,7 +4,7 @@ import "dream/serve/service"
 
 var (
 	//tagService          service.Tag
-	//categoryService     service.Category
+	categoryService service.Category
 	//messageService      service.Message
 	articleService service.Article
 	//userService         service.User

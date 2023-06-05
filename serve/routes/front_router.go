@@ -37,9 +37,13 @@ func FrontRouter() http.Handler {
 		article := base.Group("/article")
 		{
 			article.GET("/list", fArticleAPI.GetFrontList)      // 前台文章列表
-			article.GET("/:id", fArticleAPI.GetFrontInfo)       //根据id查询文章详情
+			article.GET("/:id", fArticleAPI.GetFrontInfo)       // 根据id查询文章详情
 			article.GET("/archive", fArticleAPI.GetArchiveList) // 前台文章归档
 			article.GET("/search", fArticleAPI.Search)          // 前台文章搜索
+		}
+		category := base.Group("/category")
+		{
+			category.GET("/list", fCategoryAPI.GetFrontList) // 前台分类列表
 		}
 	}
 	return r
