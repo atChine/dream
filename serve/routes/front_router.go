@@ -45,6 +45,10 @@ func FrontRouter() http.Handler {
 		{
 			category.GET("/list", fCategoryAPI.GetFrontList) // 前台分类列表
 		}
+		tag := base.Group("/tag")
+		{
+			tag.GET("/list", fTagAPI.GetFrontList) // 前台标签列表
+		}
 	}
 	return r
 }

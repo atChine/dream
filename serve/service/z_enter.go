@@ -28,7 +28,7 @@ const (
 )
 
 var (
-	//tagDao          dao.Tag
+	tagDao      dao.Tag
 	categoryDao dao.Category
 	//messageDao      dao.Message
 	articleDao dao.Article

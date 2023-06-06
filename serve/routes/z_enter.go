@@ -30,7 +30,7 @@ var (
 	//fBlogInfoAPI front.BlogInfo // 博客信息
 	fArticleAPI  front.Article  // 文章
 	fCategoryAPI front.Category // 分类
-	//fTagAPI      front.Tag      // 标签
+	fTagAPI      front.Tag      // 标签
 	//fMessageAPI  front.Message  // 留言
 	//fCommentAPI  front.Comment  // 评论
 	//fLinkAPI     front.Link     // 友链

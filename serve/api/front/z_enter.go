@@ -3,7 +3,7 @@ package front
 import "dream/serve/service"
 
 var (
-	//tagService          service.Tag
+	tagService      service.Tag
 	categoryService service.Category
 	//messageService      service.Message
 	articleService service.Article

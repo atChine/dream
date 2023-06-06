@@ -67,7 +67,7 @@ func BindPageQuery(c *gin.Context) (data req.PageQuery) {
 	return
 }
 
-// Param 绑定验证 + 合法性校验
+// BindValidQuery 绑定验证 + 合法性校验
 func BindValidQuery[T any](c *gin.Context) (data T) {
 	// Query 绑定
 	if err := c.ShouldBindQuery(&data); err != nil {
@@ -79,7 +79,7 @@ func BindValidQuery[T any](c *gin.Context) (data T) {
 	return data
 }
 
-// 检查分页参数
+// CheckQueryPage 检查分页参数
 func CheckQueryPage(pageSize, pageNum *int) {
 	switch {
 	case *pageSize >= 100:
