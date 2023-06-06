@@ -9,7 +9,7 @@ var (
 	articleService service.Article
 	//userService         service.User
 	//commentService      service.Comment
-	//linkService         service.FriendLink
+	linkService service.FriendLink
 	//roleService         service.Role
 	//resourceService     service.Resource
 	//menuService         service.Menu

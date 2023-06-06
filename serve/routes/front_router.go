@@ -49,6 +49,10 @@ func FrontRouter() http.Handler {
 		{
 			tag.GET("/list", fTagAPI.GetFrontList) // 前台标签列表
 		}
+		link := base.Group("/link")
+		{
+			link.GET("/list", fLinkAPI.GetFrontList) // 前台友链列表
+		}
 	}
 	return r
 }

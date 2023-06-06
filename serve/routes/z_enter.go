@@ -33,5 +33,5 @@ var (
 	fTagAPI      front.Tag      // 标签
 	//fMessageAPI  front.Message  // 留言
 	//fCommentAPI  front.Comment  // 评论
-	//fLinkAPI     front.Link     // 友链
+	fLinkAPI front.Link // 友链
 )
