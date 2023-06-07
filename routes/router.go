@@ -10,13 +10,10 @@ func InitRouter() {
 	r := gin.New()
 	_ = r.SetTrustedProxies(nil)
 
+	// 前台接口
 	router := r.Group("api/v1")
 	{
-		router.GET("/test", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "hello",
-			})
-		})
+		router.GET("/")
 	}
 
 	_ = r.Run(utils.HttpPort)
