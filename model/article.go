@@ -65,3 +65,18 @@ func GetArtByCate(pageSize, pageNum, cid int) ([]Article, int, int64) {
 	}
 	return artList, errmsg.SUCCSE, total
 }
+
+// GetInfoById 查询单个文章信息
+func GetInfoById(id int) (Article, int) {
+	var art Article
+	err := db.Preload("Category").
+		Where("id = ?", id).
+		First(&art).Error
+	// count_red + 1
+	// TODO  将count_red 加入到redis中
+	db.Model(&Article{}).Where("id = ?", id).UpdateColumn("read_count", gorm.Expr("read_count + ?", 1))
+	if err != nil {
+		return art, errmsg.ERROR_ART_NOT_EXIST
+	}
+	return art, errmsg.SUCCSE
+}

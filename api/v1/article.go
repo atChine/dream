@@ -49,3 +49,14 @@ func GetArtByCate(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// GetInfoById 查询单个文章信息
+func GetInfoById(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, code := model.GetInfoById(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
