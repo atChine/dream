@@ -12,6 +12,7 @@ type User struct {
 	Role     int    `gorm:"type:int;DEFAULT:2" json:"role" validate:"required,gte=2" label:"角色码"`
 }
 
+// GetUserById 查询单个用户
 func GetUserById(id int) (User, int) {
 	var user User
 	err := db.Where("id = ?", id).
@@ -21,4 +22,31 @@ func GetUserById(id int) (User, int) {
 		return user, errmsg.ERROR
 	}
 	return user, errmsg.SUCCSE
+}
+
+// GetUsers 搜索用户
+func GetUsers(pageSize, pageNum int, userName string) ([]User, int, int64) {
+	var userList []User
+	var total int64
+	if userName != "" {
+		err := db.Select("id,username,role,created_at").
+			Where("username Like ?", "%"+userName+"%").
+			Limit(pageSize).Offset((pageNum - 1) * pageSize).
+			Find(&userList).Error
+		if err != nil {
+			return nil, errmsg.ERROR, 0
+		}
+		db.Model(&userList).Where(
+			"username LIKE ?", "%"+userName+"%").
+			Count(&total)
+		return userList, errmsg.SUCCSE, total
+	}
+	err2 := db.Select("id,username,role,created_at").
+		Limit(pageSize).Offset((pageNum - 1) * pageSize).
+		Find(&userList).Error
+	if err2 != nil {
+		return nil, errmsg.ERROR, 0
+	}
+	db.Model(&userList).Count(&total)
+	return userList, errmsg.SUCCSE, total
 }

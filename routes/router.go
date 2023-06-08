@@ -20,6 +20,7 @@ func InitRouter() {
 		router.GET("article/info/:id", v1.GetInfoById)  // GetInfoById 查询单个文章信息
 		//用户信息
 		router.GET("user/:id", v1.GetUserById) // 根据id获取详细信息
+		router.GET("users", v1.GetUsers)       //  搜索用户
 	}
 
 	_ = r.Run(utils.HttpPort)
