@@ -14,7 +14,8 @@ func InitRouter() {
 	// 前台接口
 	router := r.Group("api/v1")
 	{
-		router.GET("article", v1.GetArt) // 获取全部文章列表 / 搜索title模糊查询
+		router.GET("article", v1.GetArt)                // 获取全部文章列表 / 搜索title模糊查询
+		router.GET("article/list/:id", v1.GetArtByCate) // 按照cate查询文章
 	}
 
 	_ = r.Run(utils.HttpPort)

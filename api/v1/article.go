@@ -34,3 +34,18 @@ func GetArt(c *gin.Context) {
 	})
 	return
 }
+
+// GetArtByCate 按照cate查询文章
+func GetArtByCate(c *gin.Context) {
+	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
+	pageNum, _ := strconv.Atoi(c.Query("pageNum"))
+	id, _ := strconv.Atoi(c.Param("id"))
+	pageSize, pageNum = utils.HandlePageSizeAndPageNum(pageSize, pageNum)
+	data, code, total := model.GetArtByCate(pageSize, pageNum, id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
