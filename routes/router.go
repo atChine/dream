@@ -21,6 +21,7 @@ func InitRouter() {
 		//用户信息
 		router.GET("user/:id", v1.GetUserById) // 根据id获取详细信息
 		router.GET("users", v1.GetUsers)       //  搜索用户
+		router.POST("user/add", v1.AddUser)    // 增加用户
 	}
 
 	_ = r.Run(utils.HttpPort)

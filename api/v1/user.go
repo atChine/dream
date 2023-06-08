@@ -4,6 +4,7 @@ import (
 	"dream/model"
 	"dream/utils"
 	"dream/utils/errmsg"
+	"dream/utils/validator"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -38,4 +39,32 @@ func GetUsers(c *gin.Context) {
 		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
+}
+
+// AddUser 增加用户
+func AddUser(c *gin.Context) {
+	var user model.User
+	_ = c.ShouldBindJSON(&user)
+	msg, validCode := validator.Validate(user)
+	if validCode != errmsg.SUCCSE {
+		c.JSON(
+			http.StatusOK, gin.H{
+				"status":  validCode,
+				"message": msg,
+			},
+		)
+		c.Abort()
+		return
+	}
+	// 查询username在不在
+	code := model.CheckUser(user.Username)
+	if code == errmsg.SUCCSE {
+		model.AddUser(&user)
+	}
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
 }

@@ -50,3 +50,22 @@ func GetUsers(pageSize, pageNum int, userName string) ([]User, int, int64) {
 	db.Model(&userList).Count(&total)
 	return userList, errmsg.SUCCSE, total
 }
+
+// CheckUser 检查user在不在
+func CheckUser(userName string) int {
+	var total int64
+	db.Model(&User{}).Where("username = ?", userName).Count(&total)
+	if total > 0 {
+		return errmsg.ERROR_USERNAME_USED //1 "用户名已存在！
+	}
+	return errmsg.SUCCSE
+}
+
+// AddUser 增加用户
+func AddUser(user *User) int {
+	err := db.Create(&user).Error
+	if err != nil {
+		return errmsg.ERROR // 500
+	}
+	return errmsg.SUCCSE
+}
