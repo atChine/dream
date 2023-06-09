@@ -2,7 +2,9 @@ package model
 
 import (
 	"dream/utils/errmsg"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"log"
 )
 
 type User struct {
@@ -63,9 +65,36 @@ func CheckUser(userName string) int {
 
 // AddUser 增加用户
 func AddUser(user *User) int {
+	user.Password = ScryptPw(user.Password)
 	err := db.Create(&user).Error
 	if err != nil {
 		return errmsg.ERROR // 500
 	}
 	return errmsg.SUCCSE
+}
+
+// CheckLogin 前台登录
+func CheckLogin(formDate *User) (User, int) {
+	var user User
+	db.Where("username = ?", formDate.Username).First(&user)
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(formDate.Password))
+	if user.ID == 0 {
+		return user, errmsg.ERROR_USER_NOT_EXIST
+	}
+	if err != nil {
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	return user, errmsg.SUCCSE
+}
+
+// ScryptPw 生成密码
+func ScryptPw(password string) string {
+	const cost = 10
+
+	HashPw, err := bcrypt.GenerateFromPassword([]byte(password), cost)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(HashPw)
 }

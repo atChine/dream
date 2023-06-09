@@ -28,8 +28,8 @@ func InitRouter() {
 		// 个人信息
 		router.GET("profile/:id", v1.GetProfileById) //获取个人设置信息
 		// 登录控制模块
-		//router.POST("login", v1.Login)
-		//router.POST("loginfront", v1.LoginFront)
+		router.POST("login", v1.Login)
+		router.POST("loginfront", v1.LoginFront) //前台登录
 		// 评论模块
 		//router.POST("addcomment", v1.AddComment)
 		//router.GET("comment/info/:id", v1.GetComment)
