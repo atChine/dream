@@ -31,9 +31,7 @@ func InitRouter() {
 		router.POST("login", v1.Login)
 		router.POST("loginfront", v1.LoginFront) //前台登录
 		// 评论模块
-		//router.POST("addcomment", v1.AddComment)
-		//router.GET("comment/info/:id", v1.GetComment)
-		//router.GET("commentfront/:id", v1.GetCommentListFront)
+		router.GET("commentfront/:id", v1.GetCommentListFront) //获取评论列表
 		//router.GET("commentcount/:id", v1.GetCommentCount)
 	}
 
