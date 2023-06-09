@@ -24,3 +24,14 @@ func GetCommentListFront(c *gin.Context) {
 	})
 
 }
+
+// GetCommentCount 获取评论数量
+func GetCommentCount(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	total, code := model.GetCommentCount(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
+}

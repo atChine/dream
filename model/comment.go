@@ -15,6 +15,7 @@ type Comment struct {
 	Status    int8   `gorm:"type:tinyint;default:2" json:"status"`
 }
 
+// GetCommentListFront 展示页面显示评论列表
 func GetCommentListFront(id, pageSize, pageNum int) ([]Comment, int64, int) {
 	var total int64
 	var commentList []Comment
@@ -29,4 +30,15 @@ func GetCommentListFront(id, pageSize, pageNum int) ([]Comment, int64, int) {
 		return commentList, 0, errmsg.ERROR
 	}
 	return commentList, total, errmsg.SUCCSE
+}
+
+// GetCommentCount 获取评论数量
+func GetCommentCount(id int) (int64, int) {
+	var comment Comment
+	var total int64
+	err := db.Find(&comment).Where("article_id = ?", id).Where("status = ?", 1).Count(&total).Error
+	if err != nil {
+		return 0, errmsg.ERROR
+	}
+	return total, errmsg.SUCCSE
 }

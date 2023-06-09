@@ -32,7 +32,7 @@ func InitRouter() {
 		router.POST("loginfront", v1.LoginFront) //前台登录
 		// 评论模块
 		router.GET("commentfront/:id", v1.GetCommentListFront) //获取评论列表
-		//router.GET("commentcount/:id", v1.GetCommentCount)
+		router.GET("commentcount/:id", v1.GetCommentCount)     //获取评论数量
 	}
 
 	_ = r.Run(utils.HttpPort)
