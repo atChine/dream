@@ -22,6 +22,9 @@ func InitRouter() {
 		router.GET("user/:id", v1.GetUserById) // 根据id获取详细信息
 		router.GET("users", v1.GetUsers)       //  搜索用户
 		router.POST("user/add", v1.AddUser)    // 增加用户
+		// 文章分类信息模块
+		router.GET("category", v1.GetCate) //获取全部标签
+		//router.GET("category/:id", v1.GetCateInfo)
 	}
 
 	_ = r.Run(utils.HttpPort)
