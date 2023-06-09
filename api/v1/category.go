@@ -24,3 +24,16 @@ func GetCate(c *gin.Context) {
 		},
 	)
 }
+
+// GetCateInfo 查询分类信息
+func GetCateInfo(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, code := model.GetCateInfo(id)
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"data":    data,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
+}

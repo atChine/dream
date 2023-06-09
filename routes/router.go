@@ -23,8 +23,18 @@ func InitRouter() {
 		router.GET("users", v1.GetUsers)       //  搜索用户
 		router.POST("user/add", v1.AddUser)    // 增加用户
 		// 文章分类信息模块
-		router.GET("category", v1.GetCate) //获取全部标签
-		//router.GET("category/:id", v1.GetCateInfo)
+		router.GET("category", v1.GetCate)         //获取全部标签
+		router.GET("category/:id", v1.GetCateInfo) // 查询分类信息
+		// 个人信息
+		router.GET("profile/:id", v1.GetProfileById) //获取个人设置信息
+		// 登录控制模块
+		//router.POST("login", v1.Login)
+		//router.POST("loginfront", v1.LoginFront)
+		// 评论模块
+		//router.POST("addcomment", v1.AddComment)
+		//router.GET("comment/info/:id", v1.GetComment)
+		//router.GET("commentfront/:id", v1.GetCommentListFront)
+		//router.GET("commentcount/:id", v1.GetCommentCount)
 	}
 
 	_ = r.Run(utils.HttpPort)

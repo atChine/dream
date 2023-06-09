@@ -1,5 +1,7 @@
 package model
 
+import "dream/utils/errmsg"
+
 type Profile struct {
 	ID        int    `gorm:"primaryKey" json:"id"`
 	Name      string `gorm:"type:varchar(20)" json:"name"`
@@ -12,4 +14,13 @@ type Profile struct {
 	Img       string `gorm:"type:varchar(200)" json:"img"`
 	Avatar    string `gorm:"type:varchar(200)" json:"avatar"`
 	IcpRecord string `gorm:"type:varchar(200)" json:"icp_record"`
+}
+
+func GetProfileById(id int) (Profile, int) {
+	var porFile Profile
+	err := db.Where("id = ?", id).First(&porFile).Error
+	if err != nil {
+		return porFile, errmsg.ERROR
+	}
+	return porFile, errmsg.SUCCSE
 }

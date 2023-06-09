@@ -18,3 +18,13 @@ func GetCate(pageSize, pageNum int) ([]Category, int, int64) {
 	}
 	return cateList, errmsg.SUCCSE, total
 }
+
+// GetCateInfo 查询分类信息
+func GetCateInfo(id int) (Category, int) {
+	var cate Category
+	err := db.Where("id = ?", id).First(&cate).Error
+	if err != nil {
+		return cate, errmsg.ERROR
+	}
+	return cate, errmsg.SUCCSE
+}
