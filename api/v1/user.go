@@ -97,3 +97,26 @@ func DeleteUserById(c *gin.Context) {
 		},
 	)
 }
+
+// ResetUserPassword 重置用户密码
+func ResetUserPassword(c *gin.Context) {
+	var data model.User
+	id, _ := strconv.Atoi(c.Param("id"))
+	if id == 1 {
+		code := errmsg.ERROR
+		c.JSON(
+			http.StatusOK, gin.H{
+				"status":  code,
+				"message": errmsg.GetErrMsg(code),
+			},
+		)
+		return
+	}
+	code := model.ResetUserPassword(id, &data)
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
+}

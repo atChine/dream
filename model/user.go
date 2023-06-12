@@ -134,3 +134,13 @@ func DeleteUserById(id int) int {
 	}
 	return errmsg.SUCCSE
 }
+
+// ResetUserPassword 重置用户密码
+func ResetUserPassword(id int, data *User) int {
+	data.Password = ScryptPw("123456")
+	err := db.Select("password").Where("id = ?", id).Updates(&data).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
