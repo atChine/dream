@@ -37,8 +37,9 @@ func InitRouter() {
 	// 后台接口
 	auth := r.Group("api/v1")
 	{
-		auth.GET("admin/users", v1.GetUsers)
-		auth.PUT("user/:id", v1.EditUser) // 设置用户信息
+		auth.GET("admin/users", v1.GetUsers)       //获取全部用户
+		auth.PUT("user/:id", v1.EditUser)          // 设置用户信息
+		auth.DELETE("user/:id", v1.DeleteUserById) //删除用户
 	}
 	_ = r.Run(utils.HttpPort)
 }

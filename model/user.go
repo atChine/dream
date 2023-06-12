@@ -112,12 +112,23 @@ func CheckUpUser(id int, userName string) int {
 	return errmsg.SUCCSE
 }
 
+// EditUser 更新用户
 func EditUser(id int, data *User) int {
 	var user User
 	var maps = make(map[string]interface{})
 	maps["username"] = data.Username
 	maps["role"] = data.Role
 	err := db.Model(&user).Where("id = ?", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// DeleteUserById 删除用户
+func DeleteUserById(id int) int {
+	var user User
+	err := db.Where("id = ?", id).Delete(&user).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
