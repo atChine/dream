@@ -34,6 +34,11 @@ func InitRouter() {
 		router.GET("commentfront/:id", v1.GetCommentListFront) //获取评论列表
 		router.GET("commentcount/:id", v1.GetCommentCount)     //获取评论数量
 	}
-
+	// 后台接口
+	auth := r.Group("api/v1")
+	{
+		auth.GET("admin/users", v1.GetUsers)
+		auth.PUT("user/:id", v1.EditUser) // 设置用户信息
+	}
 	_ = r.Run(utils.HttpPort)
 }

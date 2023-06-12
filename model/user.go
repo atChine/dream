@@ -98,3 +98,28 @@ func ScryptPw(password string) string {
 
 	return string(HashPw)
 }
+
+// CheckUpUser 更新用户检查
+func CheckUpUser(id int, userName string) int {
+	var user User
+	db.Select("id, username").Where("username = ?", userName).First(&user)
+	if user.ID == uint(id) {
+		return errmsg.SUCCSE
+	}
+	if user.ID > 0 {
+		return errmsg.ERROR_USERNAME_USED //1001
+	}
+	return errmsg.SUCCSE
+}
+
+func EditUser(id int, data *User) int {
+	var user User
+	var maps = make(map[string]interface{})
+	maps["username"] = data.Username
+	maps["role"] = data.Role
+	err := db.Model(&user).Where("id = ?", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
