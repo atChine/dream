@@ -43,6 +43,8 @@ func InitRouter() {
 		auth.DELETE("user/:id", v1.DeleteUserById) //删除用户
 		//修改密码
 		auth.PUT("admin/restpw/:id", v1.ResetUserPassword) // 重置用户密码
+		//分类模块
+		auth.GET("admin/category", v1.GetCate) //查询分类列表
 	}
 	_ = r.Run(utils.HttpPort)
 }
