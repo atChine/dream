@@ -37,3 +37,19 @@ func GetCateInfo(c *gin.Context) {
 		},
 	)
 }
+
+// AddCategory 增加分类标签 AddCategory
+func AddCategory(c *gin.Context) {
+	var data model.Category
+	_ = c.ShouldBindJSON(&data)
+	code := model.CheckCategory(data.Name)
+	if code == errmsg.SUCCSE {
+		model.AddCategory(&data)
+	}
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
+}

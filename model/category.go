@@ -28,3 +28,22 @@ func GetCateInfo(id int) (Category, int) {
 	}
 	return cate, errmsg.SUCCSE
 }
+
+// AddCategory 增加分类标签
+func AddCategory(category *Category) int {
+	err := db.Create(category).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// CheckCategory 查询分类重复
+func CheckCategory(name string) int {
+	var total int64
+	db.Where("name = ?", name).Count(&total)
+	if total > 0 {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
