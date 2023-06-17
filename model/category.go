@@ -40,9 +40,21 @@ func AddCategory(category *Category) int {
 
 // CheckCategory 查询分类重复
 func CheckCategory(name string) int {
-	var total int64
-	db.Where("name = ?", name).Count(&total)
-	if total > 0 {
+	var cate Category
+	db.Where("name = ?", name).First(&cate)
+	if cate.ID > 0 {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// EditCate 修改标签
+func EditCate(id int, data *Category) int {
+	var cate Category
+	var maps = make(map[string]interface{})
+	maps["name"] = data.Name
+	err := db.Model(&cate).Where("id = ?", id).Updates(maps).Error
+	if err != nil {
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCSE
