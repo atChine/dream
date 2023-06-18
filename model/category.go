@@ -59,3 +59,12 @@ func EditCate(id int, data *Category) int {
 	}
 	return errmsg.SUCCSE
 }
+
+// DeleteCate 删除标签
+func DeleteCate(id int) int {
+	err := db.Where("id = ?", id).Delete(&Category{}).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}

@@ -44,9 +44,10 @@ func InitRouter() {
 		//修改密码
 		auth.PUT("admin/restpw/:id", v1.ResetUserPassword) // 重置用户密码
 		//分类模块
-		auth.GET("admin/category", v1.GetCate)    //查询分类列表
-		auth.POST("category/add", v1.AddCategory) // 增加分类标签
-		auth.PUT("/category/:id", v1.EditCate)    // 编辑标签
+		auth.GET("admin/category", v1.GetCate)     //查询分类列表
+		auth.POST("category/add", v1.AddCategory)  // 增加分类标签
+		auth.PUT("category/:id", v1.EditCate)      // 编辑标签
+		auth.DELETE("category/:id", v1.DeleteCate) //删除标签
 	}
 	_ = r.Run(utils.HttpPort)
 }

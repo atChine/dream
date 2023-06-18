@@ -70,3 +70,15 @@ func EditCate(c *gin.Context) {
 		},
 	)
 }
+
+// DeleteCate 删除标签
+func DeleteCate(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := model.DeleteCate(id)
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
+}
