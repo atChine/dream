@@ -35,3 +35,13 @@ func GetCommentCount(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// DeleteComment 删除评论
+func DeleteComment(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := model.DeleteComment(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
+}

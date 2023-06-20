@@ -42,3 +42,13 @@ func GetCommentCount(id int) (int64, int) {
 	}
 	return total, errmsg.SUCCSE
 }
+
+// DeleteComment 删除评论
+func DeleteComment(id int) int {
+	var com Comment
+	err := db.Where("id = ?", id).Delete(&com).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
