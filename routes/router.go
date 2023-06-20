@@ -41,13 +41,15 @@ func InitRouter() {
 		auth.GET("admin/users", v1.GetUsers)       //获取全部用户
 		auth.PUT("user/:id", v1.EditUser)          // 设置用户信息
 		auth.DELETE("user/:id", v1.DeleteUserById) //删除用户
-		//修改密码
+		//重置用户密码
 		auth.PUT("admin/restpw/:id", v1.ResetUserPassword) // 重置用户密码
 		//分类模块
 		auth.GET("admin/category", v1.GetCate)     //查询分类列表
 		auth.POST("category/add", v1.AddCategory)  // 增加分类标签
 		auth.PUT("category/:id", v1.EditCate)      // 编辑标签
 		auth.DELETE("category/:id", v1.DeleteCate) //删除标签
+		// 文章模块的路由接口
+		auth.GET("admin/article/info/:id", v1.GetInfoById) //获取查询单个文章信息
 	}
 	_ = r.Run(utils.HttpPort)
 }
