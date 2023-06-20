@@ -16,6 +16,7 @@ type Profile struct {
 	IcpRecord string `gorm:"type:varchar(200)" json:"icp_record"`
 }
 
+// GetProfileById 获取个人信息
 func GetProfileById(id int) (Profile, int) {
 	var porFile Profile
 	err := db.Where("id = ?", id).First(&porFile).Error
@@ -23,4 +24,14 @@ func GetProfileById(id int) (Profile, int) {
 		return porFile, errmsg.ERROR
 	}
 	return porFile, errmsg.SUCCSE
+}
+
+// EditProfile 更新个人信息
+func EditProfile(id int, data *Profile) int {
+	var profile Profile
+	err = db.Model(&profile).Where("ID = ?", id).Updates(&data).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }
