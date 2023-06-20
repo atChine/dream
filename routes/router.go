@@ -31,8 +31,9 @@ func InitRouter() {
 		router.POST("login", v1.Login)
 		router.POST("loginfront", v1.LoginFront) //前台登录
 		// 评论模块
-		router.GET("commentfront/:id", v1.GetCommentListFront) //获取评论列表
-		router.GET("commentcount/:id", v1.GetCommentCount)     //获取评论数量
+		//router.GET("commentfront/:id", v1.GetCommentListFront) //获取评论列表
+		//router.GET("commentcount/:id", v1.GetCommentCount) //获取评论数量
+
 	}
 	// 后台接口
 	auth := r.Group("api/v1")
@@ -58,8 +59,11 @@ func InitRouter() {
 		auth.GET("admin/profile/:id", v1.GetProfileById) // 获取个人信息
 		auth.PUT("profile/:id", v1.EditProfile)          //更新个人信息设置
 		// 评论模块
-		auth.GET("comment/list", v1.GetCommentListFront) //获取评论列表
-		auth.DELETE("delcomment/:id", v1.DeleteComment)  //删除评论
+		//auth.GET("comment/list", v1.GetCommentListFront) //获取评论列表
+		auth.DELETE("delcomment/:id", v1.DeleteComment) //删除评论
+		// TODO 评论审核
+		// TODO 撤下评论审核
+		// TODO 上传模块
 
 	}
 	_ = r.Run(utils.HttpPort)
