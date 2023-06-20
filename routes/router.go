@@ -57,6 +57,8 @@ func InitRouter() {
 		// 更新个人设置
 		auth.GET("admin/profile/:id", v1.GetProfileById) // 获取个人信息
 		auth.PUT("profile/:id", v1.EditProfile)          //更新个人信息设置
+		// 评论模块
+		auth.GET("comment/list", v1.GetCommentListFront) //获取评论列表
 	}
 	_ = r.Run(utils.HttpPort)
 }
