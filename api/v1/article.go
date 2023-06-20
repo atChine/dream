@@ -85,3 +85,14 @@ func EditArt(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// DeleteArt 删除文章
+func DeleteArt(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := model.DeleteArt(id)
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
+}

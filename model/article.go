@@ -106,3 +106,13 @@ func EditArt(id int, data *Article) int {
 	}
 	return errmsg.SUCCSE
 }
+
+// DeleteArt 删除文章
+func DeleteArt(id int) int {
+	var art Article
+	err := db.Where("id = ?").Delete(&art).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}

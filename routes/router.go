@@ -53,7 +53,7 @@ func InitRouter() {
 		auth.GET("admin/article", v1.GetArt)               // 获取文章列表
 		auth.POST("article/add", v1.AddArticle)            //新增文章
 		auth.PUT("article/:id", v1.EditArt)                //修改文章
-
+		auth.DELETE("admin/:id", v1.DeleteArt)             // 删除文章
 	}
 	_ = r.Run(utils.HttpPort)
 }
