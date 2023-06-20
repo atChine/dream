@@ -54,6 +54,8 @@ func InitRouter() {
 		auth.POST("article/add", v1.AddArticle)            //新增文章
 		auth.PUT("article/:id", v1.EditArt)                //修改文章
 		auth.DELETE("admin/:id", v1.DeleteArt)             // 删除文章
+		// 更新个人设置
+		auth.GET("admin/profile/:id", v1.GetProfileById) // 获取个人信息
 	}
 	_ = r.Run(utils.HttpPort)
 }
