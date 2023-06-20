@@ -51,6 +51,8 @@ func InitRouter() {
 		// 文章模块的路由接口
 		auth.GET("admin/article/info/:id", v1.GetInfoById) //获取查询单个文章信息
 		auth.GET("admin/article", v1.GetArt)               // 获取文章列表
+		auth.POST("article/add", v1.AddArticle)            //新增文章
+		auth.PUT("article/:id", v1.EditArt)                //修改文章
 
 	}
 	_ = r.Run(utils.HttpPort)

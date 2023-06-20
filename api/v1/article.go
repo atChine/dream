@@ -60,3 +60,28 @@ func GetInfoById(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// AddArticle 新增文章
+func AddArticle(c *gin.Context) {
+	var data model.Article
+	_ = c.ShouldBindJSON(&data)
+
+	code := model.AddArticle(&data)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
+
+// EditArt 修改文章
+func EditArt(c *gin.Context) {
+	var data model.Article
+	id, _ := strconv.Atoi(c.Param("id"))
+	_ = c.ShouldBindJSON(&data)
+
+	code := model.EditArt(id, &data)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
+}

@@ -80,3 +80,29 @@ func GetInfoById(id int) (Article, int) {
 	}
 	return art, errmsg.SUCCSE
 }
+
+// AddArticle 新增文章
+func AddArticle(data *Article) int {
+	err := db.Create(&data).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// EditArt 修改文章
+func EditArt(id int, data *Article) int {
+	var art Article
+	var maps = make(map[string]interface{})
+	maps["title"] = data.Title
+	maps["cid"] = data.Cid
+	maps["desc"] = data.Desc
+	maps["content"] = data.Content
+	maps["img"] = data.Img
+
+	err := db.Model(&art).Where("id = ?", id).Updates(&maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
