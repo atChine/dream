@@ -50,6 +50,8 @@ func InitRouter() {
 		auth.DELETE("category/:id", v1.DeleteCate) //删除标签
 		// 文章模块的路由接口
 		auth.GET("admin/article/info/:id", v1.GetInfoById) //获取查询单个文章信息
+		auth.GET("admin/article", v1.GetArt)               // 获取文章列表
+
 	}
 	_ = r.Run(utils.HttpPort)
 }
